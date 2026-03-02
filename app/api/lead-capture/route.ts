@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { createServerSupabase } from '@/lib/supabase-server';
+
+const NOTIFY_EMAIL = 'clarkekhamare@gmail.com';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, phone, message } = await request.json();
+    const body = await request.json();
+    const { name, email, phone, message } = body;
+    const source = body.source ?? 'adsstarter';
 
     // Validate required fields
     if (!name || !email || !phone) {
@@ -13,19 +18,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create transporter
+    // Save to onboarding_clients table
+    try {
+      const supabase = createServerSupabase();
+      const { error } = await supabase.from('onboarding_clients').insert({
+        contact_name: name,
+        email,
+        phone: phone || null,
+        current_challenges: message || null,
+      });
+      if (error) throw error;
+    } catch (dbError) {
+      console.error('Supabase insert error:', dbError);
+      return NextResponse.json(
+        { error: 'Failed to save lead' },
+        { status: 500 }
+      );
+    }
+
+    const emailUser = process.env.EMAIL_USER || 'khamareclarke@gmail.com';
+    const emailPass = process.env.EMAIL_PASS || '';
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'khamareclarke@gmail.com',
-        pass: 'ovga hgzy rltc ifyh',
+        user: emailUser,
+        pass: emailPass.replace(/^"|"$/g, ''),
       },
     });
 
-    // Internal notification email to AdsStarter team
+    // Internal notification to clarkekhamare@gmail.com
     const internalMailOptions = {
-      from: `"AdsStarter Team" <khamareclarke@gmail.com>`,
-      to: 'khamareclarke@gmail.com',
+      from: `"AdsStarter Team" <${emailUser}>`,
+      to: NOTIFY_EMAIL,
       subject: `🚀 New Lead: ${name} - AdsStarter Lead Capture`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f8f9fa; padding: 20px;">
@@ -92,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     // Confirmation email to the lead
     const confirmationMailOptions = {
-      from: `"AdsStarter Team" <khamareclarke@gmail.com>`,
+      from: `"AdsStarter Team" <${emailUser}>`,
       to: email,
       subject: `Thank you for your interest! - AdsStarter`,
       html: `
@@ -147,20 +172,11 @@ export async function POST(request: NextRequest) {
       `,
     };
 
-    // Send internal notification email
+    // Send internal notification to clarkekhamare@gmail.com
     await transporter.sendMail(internalMailOptions);
 
     // Send confirmation email to the lead
     await transporter.sendMail(confirmationMailOptions);
-
-    // Also send to booking email
-    const bookingMailOptions = {
-      ...internalMailOptions,
-      to: 'khamareclarke@gmail.com',
-      subject: `Booking Request: ${name} - AdsStarter`,
-    };
-
-    await transporter.sendMail(bookingMailOptions);
 
     return NextResponse.json({ success: true });
   } catch (error) {

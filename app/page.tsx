@@ -16,6 +16,7 @@ import { IconStarFilled } from "@tabler/icons-react";
 import { ShootingStarsAndStarsBackgroundDemo } from "@/components/demos/shooting-stars-demo";
 import LetsMakeThingsHappenSection from "@/components/ui/lets-make-things-happen";
 import AIChatbot from "@/components/ui/ai-chatbot";
+import { useOnboarding } from "@/components/onboarding-provider";
 
 const services = [
   {
@@ -57,6 +58,8 @@ const services = [
 ];
 
 export default function Home() {
+  const { setOpenOnboarding } = useOnboarding();
+
   return (
     <div className="overflow-clip inset-0 -z-10 h-full w-full bg-[#121212] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
         <Element
@@ -89,14 +92,13 @@ export default function Home() {
             <a href="tel:519400200" className="hidden lg:inline-block">
               <span className="text-base font-medium text-white/70 hover:text-white transition-colors">(519)-400-200</span>
             </a>
-            <a
-              href="https://calendly.com/khamareclarke/new-meeting"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => setOpenOnboarding(true)}
               className="py-3 px-7 text-base font-semibold rounded-xl shadow-lg bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white border-0 hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               <span className="text-white">Book a Call</span>
-            </a>
+            </button>
           </div>
         </div>
       </Element>
@@ -113,9 +115,9 @@ export default function Home() {
           </p>
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 md:justify-center items-center mb-0 fade-in" style={{ animationDelay: '0.4s' }}>
-            <a href="https://calendly.com/khamareclarke/new-meeting" target="_blank" rel="noopener noreferrer" className="py-3 px-8 text-base font-medium rounded-lg bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all duration-200">
+            <button type="button" onClick={() => setOpenOnboarding(true)} className="py-3 px-8 text-base font-medium rounded-lg bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all duration-200">
               Book a Free Strategy Call
-            </a>
+            </button>
             <Link href="/showcase" className="py-3 px-8 text-base font-medium rounded-lg border border-white/10 text-white/70 hover:text-white hover:border-white/20 transition-all duration-200">
               See Campaign Examples
             </Link>
@@ -291,7 +293,7 @@ export default function Home() {
         <li>📊 Monthly Performance Report</li>
         <li>⚡ Designed for startups ready to break through</li>
       </ul>
-      <a href="https://calendly.com/khamareclarke/new-meeting" target="_blank" rel="noopener noreferrer" className="mt-auto py-3 px-8 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all inline-block text-center">Get Started</a>
+      <button type="button" onClick={() => setOpenOnboarding(true)} className="mt-auto py-3 px-8 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all inline-block text-center">Get Started</button>
     </div>
     {/* Growth Plan */}
     <div className="flex flex-col items-start text-left p-0">
@@ -308,7 +310,7 @@ export default function Home() {
         <li>✅ A/B Testing for Conversions</li>
         <li>⚡ Built for businesses ready to scale hard</li>
       </ul>
-      <a href="https://calendly.com/khamareclarke/new-meeting" target="_blank" rel="noopener noreferrer" className="mt-auto py-3 px-8 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all inline-block text-center">Get Started</a>
+      <button type="button" onClick={() => setOpenOnboarding(true)} className="mt-auto py-3 px-8 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all inline-block text-center">Get Started</button>
     </div>
     {/* Empire Plan */}
     <div className="flex flex-col items-start text-left p-0">
@@ -327,7 +329,7 @@ export default function Home() {
         <li>🔥 Priority Support – skip the queue, instant fixes</li>
         <li>💰 ROI Guarantee: If we don’t deliver growth, your next month is FREE*</li>
       </ul>
-      <a href="https://calendly.com/khamareclarke/new-meeting" target="_blank" rel="noopener noreferrer" className="mt-auto py-3 px-8 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all inline-block text-center">Get Started</a>
+      <button type="button" onClick={() => setOpenOnboarding(true)} className="mt-auto py-3 px-8 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all inline-block text-center">Get Started</button>
     </div>
   </div>
 </section>
@@ -382,7 +384,7 @@ export default function Home() {
     <div className="flex-1 flex flex-col items-center md:items-start gap-3">
       <span className="font-semibold text-white/80 mb-1 text-base">Navigation</span>
       <Link href="/" className="text-white/50 hover:text-white text-sm transition-colors">Home</Link>
-            <a href="https://calendly.com/khamareclarke/new-meeting" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white text-sm transition-colors">Book a Call</a>
+            <button type="button" onClick={() => setOpenOnboarding(true)} className="text-white/50 hover:text-white text-sm transition-colors text-left">Book a Call</button>
       <Link href="#process" className="text-white/50 hover:text-white text-sm transition-colors">Our Process</Link>
       <Link href="#guarentees" className="text-white/50 hover:text-white text-sm transition-colors">Guarantees</Link>
     </div>
