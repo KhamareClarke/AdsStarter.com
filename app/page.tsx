@@ -8,6 +8,9 @@ import { WordPullUpDemo } from "@/components/demos/word-pull-up-demo";
 import BoxReveal from "@/components/magicui/box-reveal";
 import NumberTicker from "@/components/magicui/number-ticker";
 import { InfiniteMovingLogos } from "@/components/ui/infinite-moving-logos";
+import { Container } from "@/components/ui/container";
+import { Section } from "@/components/ui/section";
+import { PageLayout } from "@/components/layout/page-layout";
 import Image from "next/image";
 import Link from "next/link";
 import { PiCheckBold } from "react-icons/pi";
@@ -61,12 +64,12 @@ export default function Home() {
   const { setOpenOnboarding } = useOnboarding();
 
   return (
-    <div className="overflow-clip inset-0 -z-10 h-full w-full bg-[#121212] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+    <PageLayout className="overflow-clip inset-0 -z-10 h-full w-full bg-[#121212] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
         <Element
         name="top"
         className="sticky top-0 z-50 w-full bg-[#121212] shadow-xl border-b border-[#232323]"
       >
-        <div className="flex items-center justify-between px-8 md:px-20 py-7 max-w-[1600px] mx-auto">
+        <Container size="wide" className="flex items-center justify-between py-7 !max-w-[1600px]">
           {/* Logo Left */}
           <Link href="/" className="flex items-center gap-x-4 group">
             <Image
@@ -100,11 +103,12 @@ export default function Home() {
               <span className="text-white">Book a Call</span>
             </button>
           </div>
-        </div>
+        </Container>
       </Element>
 
       <main className="md:pb-10">
-        <section className="fade-in relative flex flex-col items-center justify-center min-h-[80vh] px-4 py-20 md:py-28 overflow-hidden mb-24 max-w-5xl mx-auto">
+        <Section className="fade-in relative flex flex-col items-center justify-center min-h-[80vh] px-4 py-20 md:py-28 overflow-hidden mb-24">
+        <Container size="content" className="flex flex-col items-center justify-center w-full max-w-5xl">
           {/* Headline */}
           <h1 className="text-center text-4xl md:text-6xl font-semibold leading-[1.1] tracking-[-0.02em] mb-6 gradient-text fade-in max-w-4xl" style={{ animationDelay: '0.1s' }}>
             Launch Your Reach with High-Converting Ad Campaigns
@@ -122,9 +126,10 @@ export default function Home() {
               See Campaign Examples
             </Link>
           </div>
-        </section>
+        </Container>
+        </Section>
 
-        <div className="md:px-0 mx-4 max-w-5xl md:mx-auto mt-24">
+        <Container size="content" className="md:px-0 mx-4 mt-24">
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 items-start md:mx-auto mb-24">
             <BoxReveal boxColor={"#ffd700"} duration={0.5}>
@@ -202,11 +207,12 @@ export default function Home() {
     </section>
   </div>
 </section>
-        </div>
+        </Container>
       </main>
 
       <Element name="services">
-  <section className="fade-in w-full py-20 md:py-24 max-w-5xl mx-auto my-24">
+  <Section className="fade-in w-full my-24">
+  <Container size="content" className="w-full">
     <h2 className="text-center text-3xl md:text-5xl font-semibold gradient-text mb-4 leading-tight tracking-tight">Built from the ground up</h2>
     <p className="text-center text-lg text-white/40 max-w-2xl mx-auto mb-16 font-normal leading-relaxed">
       All of our services are designed to help your business stand out
@@ -230,7 +236,8 @@ export default function Home() {
         </div>
       ))}
     </div>
-  </section>
+  </Container>
+  </Section>
 </Element>
 
       <section className="fade-in py-24">
@@ -238,7 +245,8 @@ export default function Home() {
       </section>
 
       <Element name="process">
-  <section className="fade-in w-full py-20 md:py-24 max-w-5xl mx-auto my-24">
+  <Section className="fade-in w-full my-24">
+  <Container size="content" className="w-full">
     <h2 className="text-center text-3xl md:text-5xl font-semibold gradient-text mb-4 leading-tight tracking-tight">Our Launch Method</h2>
     <p className="text-center text-lg text-white/40 max-w-2xl mx-auto mb-16 font-normal leading-relaxed">
       All of our services are designed to help your business to get noticed.
@@ -271,11 +279,13 @@ export default function Home() {
   </li>
 </ol>
   </div>
-  </section>
+  </Container>
+  </Section>
 </Element>
 
         <Element name="pricing">
-        <section className="fade-in w-full py-20 md:py-24 max-w-5xl mx-auto my-24">
+        <Section className="fade-in w-full my-24">
+        <Container size="content" className="w-full">
   <h2 className="text-center text-3xl md:text-5xl font-semibold gradient-text mb-4 leading-tight tracking-tight">Pricing Plans</h2>
   <p className="text-center text-lg text-white/40 max-w-2xl mx-auto mb-16 font-normal leading-relaxed">Choose the perfect plan to scale your business</p>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
@@ -332,11 +342,13 @@ export default function Home() {
       <button type="button" onClick={() => setOpenOnboarding(true)} className="mt-auto py-3 px-8 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 text-white hover:shadow-xl transition-all inline-block text-center">Get Started</button>
     </div>
   </div>
-</section>
+</Container>
+</Section>
 </Element>
 
 <Element name="guarentees">
-  <section className="fade-in w-full py-20 md:py-24 max-w-5xl mx-auto my-24">
+  <Section className="fade-in w-full my-24">
+  <Container size="content" className="w-full">
     <h2 className="text-center text-3xl md:text-5xl font-semibold gradient-text mb-4 leading-tight tracking-tight">Our Guarantees to You</h2>
     <p className="text-center text-lg text-white/40 max-w-2xl mx-auto mb-16 font-normal leading-relaxed">We stand behind our work with confidence</p>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
@@ -356,21 +368,24 @@ export default function Home() {
         <p className="text-white/40 text-base font-normal mb-0 leading-relaxed">Affordable pricing for all our clients.</p>
       </div>
     </div>
-  </section>
+  </Container>
+  </Section>
 </Element>
 
-      <section className="fade-in my-24 md:py-20 max-w-5xl md:mx-auto px-4">
+      <Section className="fade-in my-24 px-4">
+      <Container size="content">
       <LetsMakeThingsHappenSection />
-      </section>
+      </Container>
+      </Section>
 
       <div className="w-full h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-700 mb-0" />
       
       {/* AI Chatbot */}
       <AIChatbot />
       
-<footer className="bg-[#181C22] py-12 md:py-16 px-6 md:px-12 border-t border-[#232c3b] mt-0">
+<footer className="bg-[#181C22] py-12 md:py-16 border-t border-[#232c3b] mt-0">
 
-  <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row md:justify-between md:items-start gap-10 md:gap-12">
+  <Container size="wide" className="flex flex-col md:flex-row md:justify-between md:items-start gap-10 md:gap-12">
     {/* Brand & Contact */}
     <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left gap-4">
       <div className="flex items-center gap-3 mb-1">
@@ -400,7 +415,7 @@ export default function Home() {
     {/* Social & Legal */}
     <div className="flex-1 flex flex-col items-center md:items-end gap-5">
                 </div>
-  </div>
+  </Container>
   <div className="flex justify-center gap-6 mb-8 mt-10">
   <a href="https://facebook.com" target="_blank" rel="noopener" className="hover:opacity-70 transition-opacity">
     <svg className="w-6 h-6 text-blue-500 fill-current" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.597 0 0 .597 0 1.326v21.348C0 23.403.597 24 1.326 24H12.82v-9.294H9.692v-3.622h3.127V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.403 24 24 23.403 24 22.674V1.326C24 .597 23.403 0 22.675 0"/></svg>
@@ -428,6 +443,6 @@ export default function Home() {
   </div>
 </div>
 </footer>
-  </div>
+    </PageLayout>
   );
 }

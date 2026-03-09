@@ -1,3 +1,6 @@
+/* Design tokens – structural (UAE template) */
+@import "../design-tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
