@@ -53,11 +53,17 @@ export function DashboardNav({ email }: { email: string }) {
           );
         })}
       </nav>
-      <div className="border-t border-slate-200 p-4">
+      <div className="border-t border-slate-200 p-4 space-y-2">
+        <Link
+          href="/"
+          className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+        >
+          Back to website
+        </Link>
         <button
           type="button"
           onClick={handleLogout}
-          className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-600 hover:bg-slate-50"
+          className="w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50"
         >
           Sign out
         </button>

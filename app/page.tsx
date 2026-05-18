@@ -20,6 +20,7 @@ import { ShootingStarsAndStarsBackgroundDemo } from "@/components/demos/shooting
 import LetsMakeThingsHappenSection from "@/components/ui/lets-make-things-happen";
 import AIChatbot from "@/components/ui/ai-chatbot";
 import { useOnboarding } from "@/components/onboarding-provider";
+import { AuthNavLinks } from "@/components/auth/auth-nav-links";
 
 const services = [
   {
@@ -91,7 +92,8 @@ export default function Home() {
           </nav>
 
           {/* CTA Right */}
-          <div className="flex items-center gap-x-6">
+          <div className="flex items-center gap-x-4 sm:gap-x-6">
+            <AuthNavLinks variant="dark" />
             <a href="tel:519400200" className="hidden lg:inline-block">
               <span className="text-base font-medium text-white/70 hover:text-white transition-colors">(519)-400-200</span>
             </a>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { AuthNavLinks } from "@/components/auth/auth-nav-links";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -11,11 +12,14 @@ export default function PrivacyPolicyPage() {
             <Image src="/logo/logo.svg" alt="AdsStarter Logo" width={48} height={48} className="drop-shadow-lg" />
             <span className="text-2xl md:text-3xl font-extrabold gradient-text tracking-tight group-hover:scale-105 transition-transform duration-200">AdsStarter</span>
           </Link>
-          <nav className="hidden md:flex gap-x-8 items-center text-white font-semibold text-lg">
+          <nav className="flex items-center gap-x-6 md:gap-x-8">
+            <AuthNavLinks variant="dark" />
+            <div className="hidden md:flex gap-x-8 items-center text-white font-semibold text-lg">
             <Link href="/" className="hover:gradient-text transition-colors text-white">Home</Link>
             <a href="https://calendly.com/khamareclarke/new-meeting" target="_blank" rel="noopener noreferrer" className="hover:gradient-text transition-colors text-white">Book a Call</a>
             <Link href="/#process" className="hover:gradient-text transition-colors text-white">Our Process</Link>
             <Link href="/#guarentees" className="hover:gradient-text transition-colors text-white">Guarantees</Link>
+            </div>
           </nav>
         </div>
       </header>

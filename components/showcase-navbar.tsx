@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AuthNavLinks } from "@/components/auth/auth-nav-links";
 
 const ShowcaseNavbar = () => {
   return (
@@ -65,6 +66,7 @@ xl:w-4/5
 
 
       <div className="flex items-center gap-x-4">
+      <AuthNavLinks variant="light" />
       <a href="tel:5193191562" className="hidden xl:flex">
               <button className="px-4 py-2  rounded-md flex items-center gap-x-3 ">
             (519)-319-1562
