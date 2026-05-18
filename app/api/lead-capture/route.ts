@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 import { createAdminSupabase } from '@/lib/supabase/admin';
+import { createEmailTransporter, getEmailFromAddress } from '@/lib/email/transporter';
 
 const NOTIFY_EMAIL = 'clarkekhamare@gmail.com';
 
@@ -36,16 +36,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const emailUser = process.env.EMAIL_USER || 'khamareclarke@gmail.com';
-    const emailPass = process.env.EMAIL_PASS || '';
-
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: emailUser,
-        pass: emailPass.replace(/^"|"$/g, ''),
-      },
-    });
+    const emailUser = getEmailFromAddress();
+    const transporter = createEmailTransporter();
 
     // Internal notification to clarkekhamare@gmail.com
     const internalMailOptions = {

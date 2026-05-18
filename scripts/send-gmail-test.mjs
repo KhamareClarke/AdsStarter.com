@@ -1,18 +1,14 @@
-import nodemailer from 'nodemailer';
+import { createEmailTransporter } from './email-transport.mjs';
 
-const user = process.env.EMAIL_USER;
-const pass = process.env.EMAIL_PASS?.replace(/^"|"$/g, '');
+const user = process.env.EMAIL_USER?.trim();
 const to = process.argv[2] ?? 'fizasaif0233@gmail.com';
 
-if (!user || !pass) {
+if (!user) {
   console.error('EMAIL_USER and EMAIL_PASS required in .env.local');
   process.exit(1);
 }
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user, pass },
-});
+const transporter = createEmailTransporter();
 
 const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px">
@@ -30,7 +26,7 @@ const html = `
 const info = await transporter.sendMail({
   from: `"AdsStarter" <${user}>`,
   to,
-  subject: 'AdsStarter — Test email (delivered via Gmail)',
+  subject: 'AdsStarter — Test email (via IONOS)',
   html,
 });
 
