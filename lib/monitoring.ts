@@ -1,5 +1,9 @@
 type EventPayload = Record<string, unknown>;
 
+type WindowWithVercelAnalytics = Window & {
+  va?: (event: string, data: Record<string, unknown>) => void;
+};
+
 export function trackEvent(name: string, payload?: EventPayload) {
   if (process.env.NODE_ENV === 'development') {
     console.debug('[track]', name, payload);
@@ -7,8 +11,7 @@ export function trackEvent(name: string, payload?: EventPayload) {
   }
   if (typeof window !== 'undefined' && 'va' in window) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).va?.('event', { name, ...payload });
+      (window as WindowWithVercelAnalytics).va?.('event', { name, ...payload });
     } catch {
       /* ignore */
     }
