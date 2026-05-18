@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 import { requireAdmin } from '@/lib/admin/auth';
 import { getGhlNotificationStats } from '@/lib/ghl/stats';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = { title: 'GHL Notifications | Admin' };
 
 export default async function GhlNotificationsAdminPage() {

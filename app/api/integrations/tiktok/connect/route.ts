@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import { createClient } from '@/lib/supabase/server';
 import { buildTikTokAuthUrl } from '@/lib/integrations/tiktok/oauth';
 import { createOAuthState, setOAuthStateCookie } from '@/lib/integrations/oauth-state';

@@ -3,6 +3,8 @@ import { getSessionUser } from '@/lib/supabase/server';
 import { getProfile } from '@/lib/db/queries';
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = { title: 'Dashboard | AdsStarter' };
 
 export default async function DashboardLayout({

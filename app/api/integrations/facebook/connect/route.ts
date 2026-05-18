@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { buildFacebookAuthUrl } from '@/lib/integrations/facebook/oauth';
 import { createOAuthState, setOAuthStateCookie } from '@/lib/integrations/oauth-state';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const supabase = await createClient();
   const {

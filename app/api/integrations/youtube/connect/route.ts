@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import { createClient } from '@/lib/supabase/server';
 import { buildGoogleAuthUrl } from '@/lib/integrations/google/oauth';
 import { createOAuthState, setOAuthStateCookie } from '@/lib/integrations/oauth-state';
