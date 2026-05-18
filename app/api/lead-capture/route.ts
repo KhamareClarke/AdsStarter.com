@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { createServerSupabase } from '@/lib/supabase-server';
+import { createAdminSupabase } from '@/lib/supabase/admin';
 
 const NOTIFY_EMAIL = 'clarkekhamare@gmail.com';
 
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     // Save to onboarding_clients table
     try {
-      const supabase = createServerSupabase();
+      const supabase = createAdminSupabase();
       const { error } = await supabase.from('onboarding_clients').insert({
         contact_name: name,
         email,

@@ -1,0 +1,28 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/sync-facebook",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/sync-google",
+      "schedule": "15 * * * *"
+    },
+    {
+      "path": "/api/cron/sync-tiktok",
+      "schedule": "30 * * * *"
+    },
+    {
+      "path": "/api/cron/sync-youtube",
+      "schedule": "45 * * * *"
+    },
+    {
+      "path": "/api/cron/check-campaign-alerts",
+      "schedule": "0 */4 * * *"
+    },
+    {
+      "path": "/api/cron/empire-os-campaign-analysis",
+      "schedule": "0 */4 * * *"
+    }
+  ]
+}
