@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getAppUrl } from '@/lib/app-url';
 import { createClient } from '@/lib/supabase/server';
 import { handleApiError, AppError } from '@/lib/error-handler';
 
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
       password,
       options: {
         data: { full_name: fullName ?? '' },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'}/auth/callback`,
+        emailRedirectTo: `${getAppUrl()}/auth/callback?next=/dashboard`,
       },
     });
 

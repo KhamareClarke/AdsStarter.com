@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getAppUrl } from '@/lib/app-url';
 import { createClient } from '@/lib/supabase/server';
 import { handleApiError, AppError } from '@/lib/error-handler';
 
@@ -7,10 +8,9 @@ export async function POST(request: Request) {
     const { email } = await request.json();
     if (!email) throw new AppError('Email required', 400);
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
     const supabase = await createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${baseUrl}/auth/callback?next=/reset-password`,
+      redirectTo: `${getAppUrl()}/auth/callback?next=/reset-password`,
     });
 
     if (error) throw new AppError(error.message, 400, error.message);
