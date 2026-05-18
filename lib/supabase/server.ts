@@ -1,12 +1,18 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { getSupabaseEnv } from '@/lib/supabase/config';
 
 export async function createClient() {
+  const env = getSupabaseEnv();
+  if (!env) {
+    throw new Error('Supabase is not configured');
+  }
+
   const cookieStore = await cookies();
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    env.url,
+    env.anonKey,
     {
       cookies: {
         getAll() {
@@ -24,4 +30,17 @@ export async function createClient() {
       },
     }
   );
+}
+
+export async function getSessionUser() {
+  if (!getSupabaseEnv()) return null;
+
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getUser();
+    if (error) return null;
+    return data.user;
+  } catch {
+    return null;
+  }
 }

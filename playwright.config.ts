@@ -18,6 +18,14 @@ export default defineConfig({
         url: 'http://localhost:3000',
         reuseExistingServer: false,
         timeout: 120000,
+        env: {
+          NEXT_PUBLIC_SUPABASE_URL:
+            process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://placeholder.supabase.co',
+          NEXT_PUBLIC_SUPABASE_ANON_KEY:
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYwNjg4MDAsImV4cCI6MTk2MTY0NDgwMH0.ci-placeholder-for-e2e-only',
+          NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+        },
       }
     : undefined,
 });
