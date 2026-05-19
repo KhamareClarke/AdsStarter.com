@@ -1,7 +1,24 @@
 import { createHash, randomInt, scryptSync, timingSafeEqual } from 'crypto';
+import { AppError } from '@/lib/error-handler';
 import { createAdminSupabase } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/send';
 import { signupVerificationEmail } from '@/lib/email/templates';
+
+function mapDbError(error: { message?: string; code?: string }) {
+  const msg = error.message ?? 'Database error';
+  if (
+    error.code === '42P01' ||
+    msg.includes('pending_signups') ||
+    msg.includes('does not exist')
+  ) {
+    throw new AppError(
+      msg,
+      503,
+      'Signup is not fully set up yet. Run supabase/migrations/006_pending_signups.sql in Supabase SQL Editor.'
+    );
+  }
+  throw new AppError(msg, 400, msg);
+}
 
 const CODE_TTL_MS = 15 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
@@ -43,7 +60,13 @@ export async function createPendingSignup(
 ): Promise<void> {
   const normalized = email.trim().toLowerCase();
   const code = generateSignupCode();
-  const admin = createAdminSupabase();
+  let admin;
+  try {
+    admin = createAdminSupabase();
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Supabase not configured';
+    throw new AppError(msg, 503, 'Server configuration error. Please contact support.');
+  }
 
   const { error } = await admin.from('pending_signups').upsert(
     {
@@ -57,7 +80,7 @@ export async function createPendingSignup(
     { onConflict: 'email' }
   );
 
-  if (error) throw new Error(error.message);
+  if (error) mapDbError(error);
 
   const { html, text, subject } = signupVerificationEmail(code, CODE_TTL_MS / 60000);
   await sendEmail({ to: normalized, subject, html, text });

@@ -4,6 +4,8 @@ import { createAdminSupabase } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { handleApiError, AppError } from '@/lib/error-handler';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const { email, code, password } = await request.json();

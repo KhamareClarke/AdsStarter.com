@@ -3,6 +3,8 @@ import { createPendingSignup } from '@/lib/auth/signup-verification';
 import { createAdminSupabase } from '@/lib/supabase/admin';
 import { handleApiError, AppError } from '@/lib/error-handler';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const { email, password, fullName } = await request.json();
@@ -16,12 +18,26 @@ export async function POST(request: NextRequest) {
 
     const normalized = email.trim().toLowerCase();
 
-    const admin = createAdminSupabase();
-    const { data: existingProfile } = await admin
+    let admin;
+    try {
+      admin = createAdminSupabase();
+    } catch {
+      throw new AppError(
+        'Missing Supabase service role',
+        503,
+        'Server configuration error. Please contact support.'
+      );
+    }
+
+    const { data: existingProfile, error: profileError } = await admin
       .from('profiles')
       .select('id')
       .eq('email', normalized)
       .maybeSingle();
+
+    if (profileError && !profileError.message.includes('does not exist')) {
+      console.error('signup profile check:', profileError.message);
+    }
     if (existingProfile) {
       throw new AppError('Email in use', 400, 'An account with this email already exists');
     }
