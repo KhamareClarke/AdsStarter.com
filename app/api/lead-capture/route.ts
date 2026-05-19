@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminSupabase } from '@/lib/supabase/admin';
-import { createEmailTransporter, getEmailFromAddress } from '@/lib/email/transporter';
+import { sendEmail } from '@/lib/email/send';
+import { getEmailFromAddress } from '@/lib/email/transporter';
 
 const NOTIFY_EMAIL = 'clarkekhamare@gmail.com';
 
@@ -37,7 +38,6 @@ export async function POST(request: NextRequest) {
     }
 
     const emailUser = getEmailFromAddress();
-    const transporter = createEmailTransporter();
 
     // Internal notification to clarkekhamare@gmail.com
     const internalMailOptions = {
@@ -165,10 +165,17 @@ export async function POST(request: NextRequest) {
     };
 
     // Send internal notification to clarkekhamare@gmail.com
-    await transporter.sendMail(internalMailOptions);
+    await sendEmail({
+      to: internalMailOptions.to as string,
+      subject: internalMailOptions.subject,
+      html: internalMailOptions.html as string,
+    });
 
-    // Send confirmation email to the lead
-    await transporter.sendMail(confirmationMailOptions);
+    await sendEmail({
+      to: confirmationMailOptions.to as string,
+      subject: confirmationMailOptions.subject,
+      html: confirmationMailOptions.html as string,
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

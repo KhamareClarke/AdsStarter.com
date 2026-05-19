@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import { AuthForm } from '@/components/auth/auth-form';
+import { SignupForm } from '@/components/auth/signup-form';
 
 export const metadata = { title: 'Create account | AdsStarter' };
 
@@ -16,7 +16,7 @@ export default function SignupPage() {
           <p className="mt-1 text-sm text-slate-600">Start managing campaigns in one place</p>
           <div className="mt-8">
             <Suspense fallback={<div className="h-48 animate-pulse rounded-xl bg-slate-100" />}>
-              <AuthForm mode="signup" />
+              <SignupForm />
             </Suspense>
           </div>
         </div>

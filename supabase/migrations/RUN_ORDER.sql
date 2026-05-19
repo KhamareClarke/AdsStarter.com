@@ -10,6 +10,9 @@
 -- STEP 3 — GHL tables (use 003_fix_index.sql if index error on sent_at::date)
 -- File: 003_phase3_ghl.sql
 
+-- STEP 6 — Signup email verification codes (pending_signups)
+-- File: 006_pending_signups.sql
+
 -- STEP 4 — Empire OS (requires profiles + campaigns from step 1)
 -- File: 004_phase4_empire_os.sql
 

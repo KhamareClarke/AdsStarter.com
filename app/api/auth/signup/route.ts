@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAppUrl } from '@/lib/app-url';
-import { createClient } from '@/lib/supabase/server';
+import { createPendingSignup } from '@/lib/auth/signup-verification';
+import { createAdminSupabase } from '@/lib/supabase/admin';
 import { handleApiError, AppError } from '@/lib/error-handler';
 
 export async function POST(request: NextRequest) {
@@ -14,42 +14,24 @@ export async function POST(request: NextRequest) {
       throw new AppError('Password too short', 400, 'Password must be at least 8 characters');
     }
 
-    const supabase = await createClient();
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName ?? '' },
-        emailRedirectTo: `${getAppUrl()}/auth/callback?next=/dashboard`,
-      },
-    });
+    const normalized = email.trim().toLowerCase();
 
-    if (error) throw new AppError(error.message, 400, error.message);
-
-    if (data.user && process.env.GHL_API_KEY) {
-      try {
-        const { syncUserToGHL } = await import('@/lib/ghl/contact-sync');
-        const { createAdminSupabase } = await import('@/lib/supabase/admin');
-        await syncUserToGHL(data.user.id, {
-          name: fullName ?? '',
-          email,
-        });
-        const admin = createAdminSupabase();
-        await admin.from('user_alert_settings').upsert(
-          { user_id: data.user.id },
-          { onConflict: 'user_id' }
-        );
-      } catch (ghlErr) {
-        console.error('GHL sync on signup failed:', ghlErr);
-      }
+    const admin = createAdminSupabase();
+    const { data: existingProfile } = await admin
+      .from('profiles')
+      .select('id')
+      .eq('email', normalized)
+      .maybeSingle();
+    if (existingProfile) {
+      throw new AppError('Email in use', 400, 'An account with this email already exists');
     }
+
+    await createPendingSignup(normalized, password, fullName ?? '');
 
     return NextResponse.json({
       success: true,
-      user: data.user,
-      message: data.session
-        ? 'Account created successfully'
-        : 'Check your email to confirm your account',
+      requiresVerification: true,
+      message: 'We sent a 6-digit code to your email. Enter it below to finish signing up.',
     });
   } catch (error) {
     const { status, body } = await handleApiError(error, 'api/auth/signup');
