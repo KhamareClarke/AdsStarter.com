@@ -3,6 +3,7 @@ import { verifyAndConsumePendingSignup } from '@/lib/auth/signup-verification';
 import { createAdminSupabase } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { handleApiError, AppError } from '@/lib/error-handler';
+import { emitEmpireActivity } from '@/lib/empire-activity';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,6 +59,21 @@ export async function POST(request: NextRequest) {
     if (signInError) {
       throw new AppError(signInError.message, 400, signInError.message);
     }
+
+    void emitEmpireActivity({
+      event_type: 'signup',
+      user_email: session.user?.email,
+      user_id: session.user?.id,
+      user_name: fullName,
+      message: 'Verified signup completed',
+      request,
+    });
+    void emitEmpireActivity({
+      event_type: 'verify_email',
+      user_email: session.user?.email,
+      user_id: session.user?.id,
+      request,
+    });
 
     return NextResponse.json({
       success: true,
