@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminSupabase } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/send';
 import { getEmailFromAddress } from '@/lib/email/transporter';
+import { emitFleetIngest } from '@/lib/fleet-ingest';
 
 const NOTIFY_EMAIL = 'clarkekhamare@gmail.com';
 
@@ -36,6 +37,12 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    void emitFleetIngest({
+      event_type: 'lead',
+      summary: `New lead: ${name} (${email})`,
+      payload: { name, email, phone, message, source },
+    });
 
     const emailUser = getEmailFromAddress();
 
